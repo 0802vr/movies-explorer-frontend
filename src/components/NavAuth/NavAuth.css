@@ -1,0 +1,124 @@
+.nav {
+    height: auto;
+    text-align: right;
+    margin-left: auto;
+     
+}
+.nav_buttom_menu {
+    display: none;
+    background-image: url(../../image/Hamburger_icon.svg.png);
+    width: 44px;
+    height: 44px;
+    border: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    outline: none;
+    background-color: white;
+}
+
+.nav__button-close {
+    display: none;
+    background-image: url(../../image/Group.svg);
+    width: 22px;
+    height: 22px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: #fff;
+    position: absolute;
+    right: 23px;
+    top:23px;
+}
+.nav__list {
+    display: flex;
+    gap:20px;
+    list-style-type: none;
+}
+.nav__item {
+    display: flex;
+    align-items: center;
+}
+.nav__item_burger {
+    display: none;
+}
+.nav__link {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;     
+    color: #000000;
+    text-decoration: none;
+}
+.nav__link_type_bold {
+font-weight: 500;
+}
+.nav__link_profile{
+    width: 100px;
+    height: 32px;
+     
+}
+
+@media screen and (max-width: 800px) {
+    
+    .nav_buttom_menu {
+        display: flex;
+    }  
+    .nav__box {
+        display: none;
+    }
+    .nav__button-close {
+        display: flex;
+    }
+    .nav__box_visible {
+        display: flex;
+        position: fixed;
+        width: 100%;
+        min-height: 100vh;
+        z-index: 2;
+        top: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, .3);
+        
+      }
+      .nav__sidebar {
+        box-sizing: border-box;
+        width: 520px;
+        min-height: 100vh;
+        margin-left: auto;
+        flex-direction: column;         
+        background-color: #fff;
+        position: relative;
+      }
+      .nav__item_burger{
+        display: flex;
+      }
+      .nav__list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 159px;
+      }
+      .nav__link_type_decorate{
+        border-bottom: 1px solid #000;
+      }
+      .nav__item:nth-child(4n) {
+        margin-top: 621px;
+      }
+      .nav__link {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+      }
+}
+@media screen and (max-width: 500px) {
+    
+   .nav__list {
+     margin-top: 144px;
+     padding: 0;
+     gap:24px;
+   }
+   .nav__item:nth-child(4n) {
+    margin-top: 414px;
+  }
+}
+
