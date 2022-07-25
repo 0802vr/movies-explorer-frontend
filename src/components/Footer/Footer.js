@@ -2,7 +2,7 @@ import './Footer.css';
 
 const Footer = () => {
     return (
-        <section className="footer">
+        <footer className="footer">
         <h3 className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm.</h3>
         <div className="footer__table">
         <p className="footer__copyright">&copy; 2022</p>
@@ -20,6 +20,6 @@ const Footer = () => {
           </ul>
         </nav>
         </div>
-        </section>);
+        </footer>);
     };
 export default Footer;

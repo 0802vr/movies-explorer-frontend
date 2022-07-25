@@ -120,5 +120,13 @@ font-weight: 500;
    .nav__item:nth-child(4n) {
     margin-top: 414px;
   }
+  .nav_buttom_menu{
+    width: 22px;
+    height: 22px;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+  }
 }
 
