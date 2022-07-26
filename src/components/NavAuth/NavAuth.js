@@ -10,7 +10,7 @@ const NavAuth = () => {
   return (
     <nav className="nav">
       <button
-        className="nav_buttom_menu"
+        className="nav__buttom_menu"
         type="button"
         onClick={toggleNav}
       ></button>

@@ -4,9 +4,9 @@
     margin-left: auto;
      
 }
-.nav_buttom_menu {
+.nav__buttom_menu {
     display: none;
-    background-image: url(../../image/Hamburger_icon.svg.png);
+    background-image: url(../../image/burger.svg);
     width: 44px;
     height: 44px;
     border: none;
@@ -14,6 +14,7 @@
     background-size: cover;
     outline: none;
     background-color: white;
+    padding: 0;
 }
 
 .nav__button-close {
@@ -59,7 +60,7 @@ font-weight: 500;
 
 @media screen and (max-width: 800px) {
     
-    .nav_buttom_menu {
+    .nav__buttom_menu {
         display: flex;
     }  
     .nav__box {
@@ -120,9 +121,10 @@ font-weight: 500;
    .nav__item:nth-child(4n) {
     margin-top: 414px;
   }
-  .nav_buttom_menu{
-    width: 22px;
-    height: 22px;
+  .nav__buttom_menu{
+    width: 40px;
+    height: 43px;
+     
   }
   .nav {
     display: flex;

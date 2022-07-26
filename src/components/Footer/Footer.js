@@ -9,13 +9,13 @@ const Footer = () => {
         <nav className="footer__navigation">
           <ul className="footer__navigation-items">
             <li className="footer__navigation-item">
-              <a className="footer__navigation-link" href="https://practicum.yandex.ru/web/">Яндекс.Практикум</a>
+              <a className="footer__navigation-link" target="_blank" rel="noreferrer" href="https://practicum.yandex.ru/web/">Яндекс.Практикум</a>
             </li>
             <li className="footer__navigation-item">
-              <a className="footer__navigation-link" href="https://github.com/vr0802/">Github</a>
+              <a className="footer__navigation-link" target="_blank" rel="noreferrer" href="https://github.com/0802vr">Github</a>
             </li>
             <li className="footer__navigation-item">
-              <a className="footer__navigation-link" href="https://vk.com/id124795459">Vkontakte</a>
+              <a className="footer__navigation-link" target="_blank" rel="noreferrer" href="https://vk.com/id124795459">Vkontakte</a>
             </li>
           </ul>
         </nav>
