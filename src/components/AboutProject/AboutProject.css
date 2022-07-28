@@ -1,0 +1,134 @@
+.about {
+    max-height: 608px;
+    display: flex;
+    flex-direction: column;
+    padding: 110px 70px;
+}
+
+.about__title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    border-bottom: 1px solid #000;
+    letter-spacing: -0.04em;
+    padding-bottom: 23px;
+}
+.about__box {
+    display: flex;
+}
+.about__box:first-of-type {
+    margin-top: 70px;
+    gap: 40px;
+  }
+  
+.about__box:last-of-type {
+    margin-top: 110px;
+  }
+ 
+.about__info-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    margin-bottom: 26px;
+}
+.about__info-text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.about__counter:first-of-type {
+    width: 20%;
+  }
+  
+  .about__counter:last-of-type {
+    width: 80%;
+  }
+.about__counter-title {
+    margin: 0;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    background-color: #2BE080;
+    
+}
+.about__counter-text {
+    margin: 0;
+    margin-top: 14px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #A0A0A0;
+}
+.about__counter-title_type_nogreen {
+    background-color: #F2F2F2;
+}
+@media screen and (max-width: 800px) {
+    .about {
+        padding: 90px 50px;
+           
+    }
+    .about__box:first-of-type {
+      gap: 30px;
+    }
+    .about__info-text {
+        font-size: 12px;
+        line-height: 18px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .about {
+        padding: 70px 18px;
+       
+    }
+    .about__title{
+        line-height: 22px;
+        padding-bottom: 28px;
+    }
+    .about__box:first-of-type {
+        flex-direction: column;
+        margin-top: 60px;
+        gap:0;
+    }
+    .about__box:last-of-type {
+        margin-top: 60px;
+      }
+      
+    .about__info-title {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 16px;
+      }
+      .about__info-text {
+        font-size: 11px;
+        line-height: 16px;
+      }
+      .about__info:first-of-type {
+        margin-bottom: 56px;
+      }
+      .about__counter-title {
+        font-size: 11px;
+        line-height: 13px;
+        padding-top: 11px;
+        padding-bottom: 11px;
+        
+      }
+      .about__counter:first-of-type {
+        width: 33%;
+      }
+      
+      .about__counter:last-of-type {
+        width: 66%;
+      }
+      .about__counter-text {
+          margin-top: 10px;
+      }
+  }

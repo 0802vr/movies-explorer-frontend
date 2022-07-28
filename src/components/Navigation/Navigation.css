@@ -1,0 +1,33 @@
+.nav__items {
+    display: flex;
+    gap: 30px;
+}
+.nav__item {
+    list-style-type: none;
+    
+}
+.nav-item__link{
+    color:#fff;
+    height: 32px;
+    width: 76px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration: none;
+}
+.nav-item__link_type_signin{
+    background-color: #2BE080;
+    color: #000;
+
+}
+@media screen and (max-width: 500px) {
+    .nav-item__link {
+        font-size: 10px;
+        line-height: 16px;
+    } 
+  }
+ 
