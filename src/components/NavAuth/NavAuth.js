@@ -1,12 +1,12 @@
 import "./NavAuth.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
  
 const NavAuth = () => {
   const [isNav, setNav] = useState(false);
 
   const toggleNav = () => setNav(!isNav);
-
+  const { pathname } = useLocation();
   return (
     <nav className="nav">
       <button
@@ -30,14 +30,21 @@ const NavAuth = () => {
                 </NavLink>
               </li>
              <li className="nav__item">
-                <NavLink to="/movies" className="nav__link nav__link_type_bold nav__link_type_decorate" onClick={toggleNav}>
+               {pathname === '/movies' ? <NavLink to="/movies" className="nav__link nav__link_type_bold nav__link_type_decorate " onClick={toggleNav}>
                   Фильмы
-                </NavLink>
+                </NavLink> : <NavLink to="/movies" className="nav__link " onClick={toggleNav}>
+                  Фильмы
+                </NavLink>}
+                
+                
               </li>
               <li className="nav__item">
+               { pathname === '/saved-movies'? <NavLink to="/saved-movies" className="nav__link nav__link_type_bold nav__link_type_decorate" onClick={toggleNav}>
+                  Сохранённые фильмы
+                </NavLink> :
                 <NavLink to="/saved-movies" className="nav__link" onClick={toggleNav}>
                   Сохранённые фильмы
-                </NavLink>
+                </NavLink>}
               </li>
               <li className="nav__item">
               <NavLink to="/profile" className="nav__link nav__link_profile" onClick={toggleNav}>

@@ -17,6 +17,8 @@
     margin-top:14px ;
     margin-left:14px ;
     margin-bottom:9px ;
+    text-overflow: ellipsis;
+    max-width: 300px;
 }
  
 .card__btn {

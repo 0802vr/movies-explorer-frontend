@@ -16,6 +16,7 @@
     height: 34px;
     border: 1px solid #E8E8E8;
     border-radius: 48px;
+     
 }
 .search__input {
     font-weight: 500;
@@ -24,6 +25,8 @@
     color: #A0A0A0;
     border: none;
     text-align: center;
+    min-width: 70%;
+     
 }
 .search__button {
     font-weight: 500;
@@ -36,6 +39,13 @@
     border: #FF6838;
     height: 34px;
     width: 59px;
+    margin-left: auto;
+}
+.search-form__err {
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+  color: red;
 }
 .search__change {
     display: flex;

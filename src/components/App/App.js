@@ -1,6 +1,13 @@
 import "./App.css";
-import React, { Switch, Route } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  Redirect,
+} from "react-router-dom";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -14,46 +21,353 @@ import Profile from "../Profile/Profile";
 
 import PageNotFound from "../PageNotFound/PageNotFound";
 
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+
+import * as MovieApi from "../../utils/MovieApi";
+import * as MainApi from "../../utils/MainApi";
+
 function App() {
+  const history = useHistory();
+  //ошибки и логирование а также данные пользователя
+  const [currentUser, setCurrentUser] = useState({});
+  const [registeredErr, setRegisteredErr] = useState(false);
+  const [loginErr, setLoginErr] = useState(false);
+  const [profileError, setProfileError] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
+  const [serverError, setServerError] = React.useState(false);
+  //начальные фильмы
+  const [movies, setMovies] = React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  //фильтрованные фильмы по состоянию экране
+  const [filterMovies, setFilterMovies] = React.useState([]);
+  const [filterSavedMovies, setFilterSavedMovies] = React.useState([]);
+  //по времени отфильтрованные
+  const [filterTimeMovies, setFilterTimeMovies] = React.useState([]);
+  const [filterTimeSavedMovies, setFilterTimeSavedMovies] = React.useState([]);
+  //состояния обычный - короткометражка
+  const [isFilter, setIsFilter] = React.useState(false);
+  //preloader
+  const [isLoading, setIsLoading] = React.useState(false);
+  //поиск фильмов
+   
+  const pathname = useLocation();
+  // код по общей работе страницы: регистрация - логирование - изменение данных пользователя - выход со страницы
+  function checkToken() {
+    const movies = localStorage.getItem("movies");
+    const savedMovies = localStorage.getItem("savedMovies");
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      MovieApi.getUser(jwt)
+        .then((userInfo) => {
+          if (userInfo) {
+            setCurrentUser(userInfo);
+            setIsLogged(true);
+            history.push("/movies");
+          }
+        })
+
+        .catch((err) => {
+          console.log(err);
+          setServerError(true);
+        });
+      if (movies) {
+        const result = JSON.parse(movies);
+        setMovies(result);
+      }
+      if (savedMovies) {
+        const resultSave = JSON.parse(savedMovies);
+        setSavedMovies(resultSave);
+        setFilterSavedMovies(resultSave);
+      }
+    } else {
+      setIsLogged(false);
+    }
+  }
+
+  useEffect(() => {
+    checkToken();
+  }, [isLogged]);
+
+  function handleLogin(email, password) {
+    MovieApi.login(email, password)
+      .then((data) => {
+        console.log(data);
+        if (data) {
+          localStorage.setItem("jwt", data.token);
+          setIsLogged(true);
+          history.push("/movies");
+          checkToken();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleRegister(name, email, password) {
+    MovieApi.register(name, email, password)
+      .then((res) => { 
+          handleLogin(email, password) 
+
+                
+      })
+      .catch((err) => {
+        setRegisteredErr("Что-то пошло не так!");
+        if (err === 400) return setRegisteredErr("некорректно заполнены поля");
+      });
+  }
+
+  function handleLogout() {
+    history.push("/");
+    setIsLogged(false);
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("movies");
+    localStorage.removeItem("savedMovies");
+    setCurrentUser({});
+  }
+
+  function updateUser(name, email) {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      MovieApi.updateUser(name, email, jwt)
+        .then((data) => {
+          setCurrentUser(data);
+          setProfileError("Данные обновлены!");
+        })
+        .catch((err) => {
+          console.log(err);
+          setProfileError("Ошибка при обновлении!");
+          alert(profileError);
+        });
+    }
+  }
+  function clearAllErrors() {
+    setLoginErr("");
+    setRegisteredErr("");
+    setProfileError("");
+  }
+  // код по фильмам загрузка фильмов - сохр фильмы - удаление - короткометраж -
+  function changeFilter() {
+    setIsFilter(!isFilter);
+  }
+  //поиск фильма по названию
+  function findFilms(films, text) {
+    let result = [];
+    films.forEach((movie) => {
+      if (movie.nameRU.toLowerCase().indexOf(text.toLowerCase()) > -1) {
+        result.push(movie);
+      }
+    });
+    return result;
+  }
+  //поиск короткомертажек
+  function findMiniFilms(films) {
+    let result = [];
+    films.forEach((movie) => {
+      if (movie.duration <= 60) {
+        result.push(movie);
+      }
+    });
+    return result;
+  }
+  //для удаления карточки
+  function filterMoviesById(films, id) {
+     
+     
+    return films.filter((item) => {
+       
+      return  item.movie._id !== id 
+    });
+  }
+  //сохранение фильма
+  function saveMovie(movie) {
+    setIsLoading(true);
+    const jwt = localStorage.getItem("jwt");
+    MovieApi.saveMovie({ jwt, movie })
+      .then((res) => {
+        const movies = [...savedMovies, res];
+        localStorage.setItem("savedMovies", JSON.stringify(movies));
+        setSavedMovies((i) => [...i, res]);
+        if (isFilter) {
+          setFilterTimeSavedMovies((i) => [...i, res]);
+          setFilterSavedMovies((i) => [...i, res]);
+        } else {
+          setFilterSavedMovies((i) => [...i, res]);
+        }
+      })
+      .catch((err) => {
+        setServerError(true);
+        console.log(err);
+      });
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }
+  //удаление фильма
+  function deleteMovie(id) {
+    setIsLoading(true);
+    const jwt = localStorage.getItem("jwt");
+    MovieApi.deleteSavedMovie({ jwt, id })
+      .then(() => {
+        const result = filterMoviesById(savedMovies, id);         
+        setSavedMovies(result);
+        localStorage.setItem("savedMovies", JSON.stringify(result));
+        setFilterSavedMovies(filterMoviesById(filterSavedMovies, id));
+        setFilterTimeSavedMovies(filterMoviesById(filterTimeMovies, id));
+      })
+      .catch((err) => setServerError(true));
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }
+  //поиск фильма в зависимости от состояния
+  function findMoviesMain(text) {
+    setIsLoading(true);
+    if (movies.length > 0) {
+      const result = findFilms(movies, text);
+      setFilterMovies(result);
+       
+    } else {
+      MainApi.getInitialMovies()
+        .then((res) => {
+          setMovies(res);
+          localStorage.setItem("movies", JSON.stringify(res));
+          const result = findFilms(res, text);
+          setFilterMovies(result);
+           
+
+          if (isFilter) {
+            const resultTimeFilter = findMiniFilms(result);
+            setFilterTimeMovies(resultTimeFilter);
+             
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }
+  //поиск сохраненных фильмов
+  function findMoviesMainSaved(text) {
+    
+    if (savedMovies.length > 0) {
+      setFilterSavedMovies(findFilms(savedMovies, text));
+    } else {
+      setIsLoading(true);
+      MovieApi.getSavedMovies()
+        .then((res) => {
+          setSavedMovies(res);
+          localStorage.setItem("savedMovies", JSON.stringify(res));
+          setFilterSavedMovies(findFilms(savedMovies, text));
+        })
+        .catch((err) => console.log(err));
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+  }
+  useEffect(() => {
+    clearAllErrors();
+    if (pathname === "/saved-movies") {
+      setFilterSavedMovies(savedMovies);
+    }
+  }, [pathname]);
+//работа прелоадера в зависимости от состояния
+ useEffect(() => {
+     
+    if (isFilter) {
+        if (pathname.pathname === "/movies") {
+            if (movies.length > 0) {
+                const result = findMiniFilms(filterMovies);                
+                setFilterTimeMovies(result);
+            }
+        }
+        else if (pathname.pathname === "/saved-movies") {
+            const result = findMiniFilms(filterSavedMovies);            
+            setFilterTimeSavedMovies(result);
+        }
+
+    }
+}, [isFilter])
+
   return (
-    <div className="app">
-      <Switch>
-        <Route exact path="/">
-          <Header loggedIn={false} />
-          <Main />
-          <Footer />
-        </Route>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="app">
+        <Switch>
+          <ProtectedRoute exact path="/movies" isLogged={isLogged}>
+            <Header loggedIn={true} />
+            <Movies
+              isFilter={isFilter}
+              setFilter={changeFilter}              
+              movies={isFilter ? filterTimeMovies : filterMovies}
+              savedMovies={savedMovies}
+              saveMovie={saveMovie}
+              findMoviesMain={findMoviesMain}
+              findMoviesMainSaved={findMoviesMainSaved}
+              isLoading={isLoading}              
+              deleteMovie={deleteMovie}
+              clearAllErrors={clearAllErrors}
+              setIsLoading={setIsLoading}
+            />
+            <Footer />
+          </ProtectedRoute>
 
-        <Route path="/movies">
-          <Header loggedIn={true} />
-          <Movies />
-          <Footer />
-        </Route>
+          <ProtectedRoute exact path="/saved-movies" isLogged={isLogged}>
+            <Header loggedIn={true} />
+            <SavedMovies 
+            isFilter={isFilter}
+            setFilter={changeFilter}
+            saveMovie={saveMovie}
+            movies={isFilter ? filterTimeSavedMovies : filterSavedMovies}
+            savedMovies={savedMovies}
+            findMoviesMain={findMoviesMain}
+            findMoviesMainSaved={findMoviesMainSaved}
+            isLoading={isLoading}            
+            deleteMovie={deleteMovie}
+            clearAllErrors={clearAllErrors}/>
+            <Footer />
+          </ProtectedRoute>
 
-        <Route exact path="/saved-movies">
-          <Header loggedIn={true} />
-          <SavedMovies />
-          <Footer />
-        </Route>
+          <ProtectedRoute exact path="/profile" isLogged={isLogged}>
+            <Header loggedIn={true} />
+            <Profile
+              handleLogout={handleLogout}
+              changeProfile={updateUser}
+              setProfileError={setProfileError}
+              profileError={profileError}
+            />
+          </ProtectedRoute>
 
-        <Route exact path="/signup">
-          <Register />
-        </Route>
+          <Route exact path="/" isLogged={isLogged}>
+            <Header loggedIn={false} />
+            <Main />
+            <Footer />
+          </Route>
 
-        <Route exact path="/signin">
-          <Login />
-        </Route>
+          <Route exact path="/signin">
+            {isLogged ? <Redirect to="/movies" /> : <Redirect to="/signin" />}
+            <Login
+              handleLogin={handleLogin}
+              clearErrors={clearAllErrors}
+              loginErr={loginErr}
+              setLoginErr={setLoginErr}
+            />
+          </Route>
 
-        <Route exact path="/profile">
-          <Header loggedIn={true} />
-          <Profile />
-        </Route>
+          <Route exact path="/signup">
+            <Register
+              handleRegister={handleRegister}
+              clearErrors={clearAllErrors}
+              registeredErr={registeredErr}
+              setRegisteredErr={setRegisteredErr}
+            />
+          </Route>
 
-        <Route path="*">
-          <PageNotFound />
-        </Route>
-      </Switch>
-    </div>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

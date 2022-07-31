@@ -1,12 +1,38 @@
 import './SavedMovies.css';
-import savemovies from '../../utils/savemovies';
+import React, { useEffect } from "react";
 import SeachForm from '../SeachForm/SeachForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-const SavedMovies = () => {
+const SavedMovies = ({
+    isFilter,
+    setFilter,
+    saveMovie,
+    movies,
+    savedMovies,
+    findMoviesMain,
+    findMoviesMainSaved,
+    isLoading,
+    deleteMovie,
+    clearAllErrors}) => {
+    function changeFilter() {
+        setFilter();
+    }
+    useEffect(() => {
+        clearAllErrors();
+    }, []);
     return (
         <div className='savedMovies'>  
-        <SeachForm />
-        <MoviesCardList cards={savemovies}/>
+        <SeachForm 
+        changeFilter={changeFilter}
+        findMoviesMain={findMoviesMain}
+        findMoviesMainSaved={findMoviesMainSaved}
+        isMain={false}/>
+        <MoviesCardList 
+        movies={movies}
+        savedMovies={savedMovies}
+        isLoading={isLoading}
+        saveMovie={saveMovie}
+        deleteMovie={deleteMovie}       
+        isMain={false}/>
         </div>)
         
     };
