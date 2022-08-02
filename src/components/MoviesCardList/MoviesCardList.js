@@ -1,6 +1,6 @@
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import Preloader from "../Preloader/Preloader";
+
 import React from "react";
 import {useLocation} from "react-router-dom";
 const MoviesCardList = ({
@@ -33,19 +33,7 @@ const MoviesCardList = ({
         ))}
       </div>
 
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <div className="movies_cards__button-container">
-          <button
-            className="movies_cards__button"
-            type="button"
-            onClick={addMovies} 
-          >
-            Ещё
-          </button>
-        </div>
-      )}
+      
     </section>
   );
 };

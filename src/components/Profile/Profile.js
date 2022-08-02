@@ -1,13 +1,13 @@
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useState, useContext } from 'react';
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { useFormWithValidation } from "../../utils/useFormWithValidation";
 
 import "./Profile.css";
 const Profile = ({changeProfile, handleLogout, setProfileError, profileError}) => {
 
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const { values, handleChange, errors, isValid, resetForm, setValues } =
     useFormWithValidation();
@@ -19,25 +19,38 @@ const Profile = ({changeProfile, handleLogout, setProfileError, profileError}) =
     changeProfile({ email: values.email, name: values.name });
     resetForm();
   }
+  const [name, setName] = useState(currentUser.name);   
+  const [email, setEmail] = useState(currentUser.email);
   function handleClickSignOut() {
     resetForm();
     handleLogout();
   }
-  function handleChangeInput(e) {
+  function handleChangeInputName(e) {
     handleChange(e);
+    const value = e.target.value;
+    setName(value)
+      if (profileError.length > 0) {
+      setProfileError("");
+    }  
+  }
+  function handleChangeInputEmail(e) {
+    handleChange(e);
+    const value = e.target.value;
+    setEmail(value)
       if (profileError.length > 0) {
       setProfileError("");
     }  
   }
   React.useEffect(() => {
+    
      setValues(currentUser) 
   }, [currentUser, setValues]); 
 
   return (
     <section className="profile">
-      <span className="profile__error_span">{profileError}</span>
+       
       <form className="profile__form" onSubmit={handleSubmit}>
-      <h2 className="profile__title">Привет, {currentUser.name || "обнови страницу"}!</h2>
+      <h2 className="profile__title">Привет, {name}!</h2>
        
       <label className="profile__item">
         <p className="profile__item-text">Имя</p>
@@ -46,8 +59,8 @@ const Profile = ({changeProfile, handleLogout, setProfileError, profileError}) =
           type="text"
           name="name"
           pattern="[а-яА-Яa-zA-ZёË\- ]{1,}"
-          value={values.name  || ""}
-          onChange={handleChangeInput}           
+          value={name}
+          onChange={handleChangeInputName}           
           required
         /> 
         
@@ -60,15 +73,15 @@ const Profile = ({changeProfile, handleLogout, setProfileError, profileError}) =
           type="email"
           name="email"   
           pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-          value={values.email  || ""}
-          onChange={handleChangeInput}               
+          value={email}
+          onChange={handleChangeInputEmail}               
           required
         /> 
         
       </label>
       <p className="form__error {errors.email ? form__error-text : null }">{errors.email}</p>
       
-      <button  className="profile__btn" type="submit">
+      <button  className="profile__btn" type="submit" disabled={!isValid}>
         Редактировать
       </button>
       <button  className="profile__link" type="submit" onClick={handleClickSignOut}>

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SeachForm from "../SeachForm/SeachForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Preloader from "../Preloader/Preloader";
 
 const Movies = ({
   isFilter,
@@ -89,6 +90,19 @@ const Movies = ({
         addMovies={addMovies}
         isMain={true}
       />
+       
+        <Preloader  isLoading={isLoading}  />
+     {movies || savedMovies ? (<div className="{movies.length === moviesCounter.length ?  movies_cards__button-container_display_none : movies_cards__button-container">
+          <button
+            className="movies_cards__button"
+            type="button"
+            onClick={addMovies} 
+          >
+            Ещё
+          </button>
+        </div>): null}
+        
+      
     </div>
   );
 };

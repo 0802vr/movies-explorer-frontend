@@ -9,6 +9,7 @@ const Register = ({ handleRegister, clearErrors, registeredErr, setRegisteredErr
     if (registeredErr.length > 0) {
       setRegisteredErr("");
     }
+
   }
   function handleClearErrors() {
     resetForm();
@@ -57,7 +58,7 @@ const Register = ({ handleRegister, clearErrors, registeredErr, setRegisteredErr
           name="email"
           value={values.email || ""}
           onChange={handleChangeInput}
-          pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+          pattern="[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])"
           autoComplete="no"
           required
         />

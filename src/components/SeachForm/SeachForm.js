@@ -13,16 +13,21 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
     function handleFindMainMovies(e) {
         e.preventDefault();
         findMoviesMain(text);
-        setText("");
+         
+        
+        
     }
     function handleFindMainSavedMovies(e) {
         e.preventDefault();
         findMoviesMainSaved(text);
-        setText("");
+        
+        
     }
     function handleChangeFilter() {
       changeFilter();
   }
+  let findText = JSON.parse(localStorage.getItem("text")) 
+  let findTextSave = JSON.parse(localStorage.getItem("textSave")) 
   return (
     <section className="search">
       <form className="search__form" onSubmit={isMain ? handleFindMainMovies : handleFindMainSavedMovies}>
@@ -30,8 +35,8 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
         <input
           className="search__input"
           type="text"
-          placeholder="Фильм"
-          onChange={handleChangeInput}
+          placeholder={isMain ? findText: findTextSave}
+          onChange={handleChangeInput}      
           value={text}
           required
         />

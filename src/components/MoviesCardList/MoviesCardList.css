@@ -25,6 +25,9 @@
     text-align: center;
     height: 36px;
 }
+.movies_cards__button-container_display_none {
+    display: none;
+}
 @media screen and (max-width: 800px) {
     .movies_cards {
         margin: 0 30px 0;

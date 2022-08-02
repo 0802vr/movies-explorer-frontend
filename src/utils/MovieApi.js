@@ -17,7 +17,8 @@ export const register = ({ email, password, name }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password: password, email: email, name: name }),
-  }).then((res) => handleRes(res));
+  }).then((res) => handleRes(res))
+    
 };
 
 //логирование пользователя только пароль и почта

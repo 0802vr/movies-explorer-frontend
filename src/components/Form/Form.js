@@ -16,7 +16,7 @@ function Form(props) {
 
       <form className="form__box" onSubmit={onSubmit}  >
         <div className="form__items"> {children} </div>
-        <button type="submit" className={isValid ? "form__button" : "form__button_type_disable"} >
+        <button type="submit" className={isValid ? "form__button" : "form__button_type_disable"} disabled={!isValid} >
           {submit}
         </button>
       </form>
