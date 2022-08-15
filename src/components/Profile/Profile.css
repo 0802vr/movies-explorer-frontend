@@ -71,6 +71,17 @@
     cursor: pointer;
     background-color: #fff;
 }
+.profile__btn_type_disable {
+    color: grey;
+    margin-top: 210px;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;     
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+}
 .profile__link {
     text-decoration: none;
     font-weight: 500;

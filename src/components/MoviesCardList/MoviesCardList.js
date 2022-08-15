@@ -31,9 +31,7 @@ const MoviesCardList = ({
             saveMovie={saveMovie}
           />
         ))}
-      </div>
-
-      
+      </div>      
     </section>
   );
 };

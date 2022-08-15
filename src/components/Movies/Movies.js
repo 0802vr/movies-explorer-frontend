@@ -6,7 +6,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 
 const Movies = ({
-  isFilter,
+   
   setFilter,
   saveMovie,
   movies,
@@ -28,19 +28,21 @@ const Movies = ({
 
   const [counter, setCounter] = React.useState(() => {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 768) {
+    if (windowWidth > 1279) {
       return 12;
-    } else if (windowWidth >= 480) {
+    }
+    else if (windowWidth > 800) {
       return 8;
-    } else if (windowWidth >= 320) {
+    } 
+    else if (windowWidth >= 320) {
       return 5;
     }
   });
   const [preloaderAdd, setPreloaderAdd] = React.useState(() => {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 768) {
+    if (windowWidth > 1279) {
       return 3;
-    } else if (windowWidth >= 480) {
+    } else if (windowWidth > 800) {
       return 2;
     } else if (windowWidth >= 320) {
       return 1;
@@ -48,10 +50,10 @@ const Movies = ({
   });
   function onChange() {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 768) {
+    if (windowWidth > 1279) {
       setCounter(12);
       setPreloaderAdd(3);
-    } else if (windowWidth >= 480) {
+    } else if (windowWidth >= 800) {
       setCounter(8);
       setPreloaderAdd(2);
     } else if (windowWidth >= 320) {
@@ -60,10 +62,12 @@ const Movies = ({
     }
   }
   useEffect(() => {
-    window.addEventListener("resize", onChange);
+    window.addEventListener("resize",  () => {
+      setTimeout(onChange, 1000);
+  });
   }, []);
 
-  const moviesCounter = movies.slice(0, counter);
+  let moviesCounter = movies.slice(0, counter);
 
   function addMovies() {
     setIsLoading(true);
@@ -72,6 +76,7 @@ const Movies = ({
       setIsLoading(false);
     }, 1000);
   }
+   
   return (
     <div className="movies">
       <SeachForm
@@ -92,7 +97,7 @@ const Movies = ({
       />
        
         <Preloader  isLoading={isLoading}  />
-     {movies || savedMovies ? (<div className="{movies.length === moviesCounter.length ?  movies_cards__button-container_display_none : movies_cards__button-container">
+     {movies || savedMovies ? (<div className={movies.length === moviesCounter.length ?  "movies_cards__button-container_display_none" : "movies_cards__button-container"}>
           <button
             className="movies_cards__button"
             type="button"

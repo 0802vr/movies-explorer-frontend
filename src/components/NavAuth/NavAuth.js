@@ -8,12 +8,16 @@ const NavAuth = () => {
   const toggleNav = () => setNav(!isNav);
   const { pathname } = useLocation();
   return (
-    <nav className="nav">
-      <button
-        className="nav__buttom_menu"
-        type="button"
-        onClick={toggleNav}
-      ></button>
+    <nav className="nav">{pathname === '/' ? <button
+    className="nav__buttom_menu_type_main"
+    type="button"
+    onClick={toggleNav}
+  ></button> : <button
+  className="nav__buttom_menu"
+  type="button"
+  onClick={toggleNav}
+></button> }
+      
 
       <div className={`nav__box ${isNav ? "nav__box_visible" : ""}`}>
         <div className="nav__sidebar">

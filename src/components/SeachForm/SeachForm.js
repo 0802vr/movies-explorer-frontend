@@ -1,5 +1,6 @@
 import "./SeachForm.css";
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom';
 
 const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) => {
 
@@ -13,9 +14,9 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
     function handleFindMainMovies(e) {
         e.preventDefault();
         findMoviesMain(text);
+        
          
-        
-        
+               
     }
     function handleFindMainSavedMovies(e) {
         e.preventDefault();
@@ -26,8 +27,14 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
     function handleChangeFilter() {
       changeFilter();
   }
-  let findText = JSON.parse(localStorage.getItem("text")) 
-  let findTextSave = JSON.parse(localStorage.getItem("textSave")) 
+    
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.pathname === '/movies'){let findText = JSON.parse(localStorage.getItem("text")) 
+    setText(findText);}
+      
+  }, [setText]); 
   return (
     <section className="search">
       <form className="search__form" onSubmit={isMain ? handleFindMainMovies : handleFindMainSavedMovies}>
@@ -35,7 +42,7 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
         <input
           className="search__input"
           type="text"
-          placeholder={isMain ? findText: findTextSave}
+          name="name"
           onChange={handleChangeInput}      
           value={text}
           required

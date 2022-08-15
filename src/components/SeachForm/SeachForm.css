@@ -1,11 +1,13 @@
 .search{
     padding:  70px 70px 49px;
+    margin-top: 74px;
 }
 .search__form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-bottom: 15px;
+    
     border-bottom: 1px solid  #E8E8E8;
 }
 .search__icon {

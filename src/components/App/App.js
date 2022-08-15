@@ -162,7 +162,7 @@ function App() {
     if (jwt) {
       MovieApi.updateUser(name, email, jwt)
         .then((data) => {
-          setCurrentUser(data);
+          setCurrentUser(data.user);
           setProfileError("Данные обновлены!")
           alert("Данные обновлены!");
         })
@@ -190,6 +190,7 @@ function App() {
         result.push(movie);
       }
     });
+    if(result.length === 0){  alert('Ничего не найдено, попробуйте ввести другое ключевое слово')}
     return result;
   }
   function findSavesFilms(films, text) {
@@ -199,6 +200,7 @@ function App() {
         result.push(movie);
       }
     });
+    if(result.length === 0){  alert('Ничего не найдено, попробуйте ввести другое ключевое слово')}
     return result;
   }
   //поиск короткомертажек
@@ -239,7 +241,7 @@ function App() {
         const movies = [...savedMovies, res];
         localStorage.setItem("savedMovies", JSON.stringify(movies));
         setSavedMovies((i) => [...i, res]);
-        console.log(res.movie.duration)
+        
         if (res.movie.duration < 45) {
           setFilterTimeSavedMovies((i) => [...i, res]);
           setFilterSavedMovies((i) => [...i, res]);
@@ -310,10 +312,10 @@ function App() {
   }
   //поиск сохраненных фильмов
   function findMoviesMainSaved(text) {
-    if(localStorage.getItem("textSave")){localStorage.removeItem("textSave");}
+     
     if (savedMovies.length > 0) {
       setFilterSavedMovies(findSavesFilms(savedMovies, text));
-      localStorage.setItem("textSave", JSON.stringify(text));
+       
     } else {
       setIsLoading(true);
       MovieApi.getSavedMovies()
@@ -321,7 +323,7 @@ function App() {
           setSavedMovies(res);
           localStorage.setItem("savedMovies", JSON.stringify(res));
           setFilterSavedMovies(findSavesFilms(savedMovies, text));
-          localStorage.setItem("textSave", JSON.stringify(text));
+           
         })
         .catch((err) => console.log(err));
       setTimeout(() => {
@@ -362,7 +364,7 @@ function App() {
         <Switch>
         
         <Route exact path="/" isLogged={isLogged}>
-            <Header loggedIn={false} />
+            <Header loggedIn={isLogged} />
             <Main />
             <Footer />
           </Route>
