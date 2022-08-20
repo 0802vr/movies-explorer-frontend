@@ -47,6 +47,7 @@ function App() {
   const [filterTimeSavedMovies, setFilterTimeSavedMovies] = React.useState([]);
   //состояния обычный - короткометражка
   const [isFilter, setIsFilter] = React.useState(false);
+  const [isFilterSave, setIsFilterSave] = React.useState(false);
   //preloader
   const [isLoading, setIsLoading] = React.useState(false);
   //поиск фильмов
@@ -181,6 +182,9 @@ function App() {
   // код по фильмам загрузка фильмов - сохр фильмы - удаление - короткометраж -
   function changeFilter() {
     setIsFilter(!isFilter);
+  }
+  function changeFilterSave() {
+    setIsFilterSave(!isFilterSave);
   }
   //поиск фильма по названию
   function findFilms(films, text) {
@@ -333,7 +337,7 @@ function App() {
   }
   useEffect(() => {
     clearAllErrors();
-    setIsFilter(false)
+    
     if (pathname.pathname === "/saved-movies") {
       setFilterSavedMovies(savedMovies);
     }
@@ -348,15 +352,16 @@ function App() {
                                
                 setFilterTimeMovies(result);
             }
-        }
-        else if (pathname.pathname === "/saved-movies") {
+        }}
+    if(isFilterSave) {
+        if(pathname.pathname === "/saved-movies") {
             const result = findMiniFilmsSaves(filterSavedMovies);   
                   
             setFilterTimeSavedMovies(result);
-        }
+        }}
 
-    }
-}, [isFilter])
+    
+}, [isFilter, isFilterSave])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -420,10 +425,10 @@ function App() {
           <ProtectedRoute exact path="/saved-movies" isLogged={isLogged}>
             <Header loggedIn={true} />
             <SavedMovies 
-            isFilter={isFilter}
-            setFilter={changeFilter}
+            isFilterSave={isFilterSave}
+            setFilterSave={changeFilterSave}  
             saveMovie={saveMovie}
-            movies={isFilter ? filterTimeSavedMovies : filterSavedMovies}
+            movies={isFilterSave ? filterTimeSavedMovies : filterSavedMovies}
             savedMovies={savedMovies}
             findMoviesMain={findMoviesMain}
             findMoviesMainSaved={findMoviesMainSaved}

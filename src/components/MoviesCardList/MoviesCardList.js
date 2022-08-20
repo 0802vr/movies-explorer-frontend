@@ -12,12 +12,7 @@ const MoviesCardList = ({
   isMain,
   addMovies 
 }) => {
- /* const pathname = useLocation();
-   function getAddCard (props){
-    if (pathname === "/movies")      
-        
-        return props.addMovies 
-  } */
+  
   return (
     <section className="movies_cards">
       <div className="cards__items">

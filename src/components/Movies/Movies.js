@@ -6,7 +6,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 
 const Movies = ({
-   
+  isFilter,
   setFilter,
   saveMovie,
   movies,
@@ -80,6 +80,7 @@ const Movies = ({
   return (
     <div className="movies">
       <SeachForm
+        isFilter={isFilter}
         changeFilter={changeFilter}
         findMoviesMain={findMoviesMain}
         findMoviesMainSaved={findMoviesMainSaved}

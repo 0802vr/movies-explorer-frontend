@@ -2,7 +2,7 @@ import "./SeachForm.css";
 import React, { useState } from "react";
 import { useLocation } from 'react-router-dom';
 
-const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) => {
+const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain, isFilter, isFilterSave}) => {
 
     const [form, setForm] = useState(true);
     const [text, setText] = useState("");
@@ -28,6 +28,7 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
       changeFilter();
   }
     
+    
   const location = useLocation();
 
   React.useEffect(() => {
@@ -52,7 +53,7 @@ const SeachForm = ({changeFilter, findMoviesMain, findMoviesMainSaved, isMain}) 
       </form>
       <div className="search__change">
         <label className="search__switch">
-          <input type="checkbox" onClick={handleChangeFilter} className="search__checkbox" />
+          <input type="checkbox" onClick={ handleChangeFilter} checked={isMain ? isFilter : isFilterSave} className="search__checkbox" />
           <span className="search__slider" />
         </label>
         <p className="search__movies">Короткометражки</p>

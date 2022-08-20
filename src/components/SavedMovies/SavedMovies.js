@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import SeachForm from '../SeachForm/SeachForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 const SavedMovies = ({
-    isFilter,
-    setFilter,
+    isFilterSave,
+    setFilterSave,
     saveMovie,
     movies,
     savedMovies,
@@ -14,7 +14,7 @@ const SavedMovies = ({
     deleteMovie,
     clearAllErrors}) => {
     function changeFilter() {
-        setFilter();
+        setFilterSave();
     }
     useEffect(() => {
         clearAllErrors();
@@ -23,6 +23,7 @@ const SavedMovies = ({
         <div className='savedMovies'>  
         <SeachForm 
         changeFilter={changeFilter}
+        isFilterSave={isFilterSave}
         findMoviesMain={findMoviesMain}
         findMoviesMainSaved={findMoviesMainSaved}
         isMain={false}/>
